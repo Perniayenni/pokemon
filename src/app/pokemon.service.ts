@@ -22,7 +22,6 @@ export class PokemonService {
   }*/
 
   obtenerPokemonsNtional(){
-    console.log('1servicio');
     let url=`${this.urlPokemon}/pokedex/1/`;
 
     let headers = new Headers({
@@ -30,14 +29,20 @@ export class PokemonService {
     });
    return this.http.get(url)
       .map(res => {
-        console.log('2servicio');
-        console.log(res.json());
         return res.json();
       });
   }
   obtenerpokemons(){
 
     let url=`${this.urlPokemon}/pokemon`;
+    return this.http.get(url)
+      .map(res => {
+        return res.json();
+      });
+
+  }
+
+  obtenerMadpokemons(url){
     return this.http.get(url)
       .map(res => {
         return res.json();
