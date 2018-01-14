@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {PokemonService} from '../../pokemon.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-all-pokemon',
@@ -7,16 +8,16 @@ import {PokemonService} from '../../pokemon.service';
   styleUrls: ['./all-pokemon.component.css']
 })
 export class AllPokemonComponent {
-
+  public loadingPr:boolean=true;
   public poemonMostrar:any=[];
   public nexpage:string;
   public pokemonsNational:any= [];
 
-  constructor(private pokeServ: PokemonService) {
-    console.log('1');
+  constructor(private pokeServ: PokemonService,
+              private router:Router) {
+      this.pokemonsNational=[];
     this.pokeServ.obtenerPokemonsNtional()
       .subscribe(dat => {
-      //let pokemonsNational = [];
       for (let a of dat.pokemon_entries) {
         this.pokemonsNational.push(a.pokemon_species.name);
       }
@@ -30,16 +31,15 @@ export class AllPokemonComponent {
         let scopess=this;
         this.pokeServ.obtenerarrayMostrar(pokemons, this.pokemonsNational).then(function (resp) {
           //console.log(resp);
+          scopess.poemonMostrar = [];
+          scopess.loadingPr=false;
           scopess.poemonMostrar = resp;
 
         });
       });
     });
   }
-    /*this.pokeServ.obtenerarrayMostrar()
-      .then(function () {
-        console.log(this.pokeServ.pokemonMostrar);
-      }); */
+
 
   obtenermaspokemnon(){
       console.log(this.nexpage);
@@ -58,5 +58,9 @@ export class AllPokemonComponent {
         });
     });
 
+  }
+
+  verPokemon( idx:number ){
+    this.router.navigate( ['/pokemon',idx] );
   }
 }

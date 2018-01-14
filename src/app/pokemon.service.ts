@@ -7,20 +7,13 @@ import {Observable} from 'rxjs';
 export class PokemonService {
 
   private urlPokemon: string = 'https://cors.now.sh/https://pokeapi.co/api/v2';
-  private pokemonsNational:any= [];
   private pokemons:any=[];
   private pokemonMostrar:any=[];
   private promises = [];
   constructor(public http: Http) {
 
   }
-
- /* getPokemonInfo() {
-    let url=`${this.urlPokemon}/pokedex/1/`;
-    return this.http.get(url, { headers: this.headers })
-      .map(res => res.json());
-  }*/
-
+  // OBTENEMOS LOS POKEMONS DE TIPO NATIONAL
   obtenerPokemonsNtional(){
     let url=`${this.urlPokemon}/pokedex/1/`;
 
@@ -32,6 +25,8 @@ export class PokemonService {
         return res.json();
       });
   }
+
+  // AHORA OBTENEMOS TODOS LOS POKEMONS CON EL FIN DE USAR LA PAGINACION
   obtenerpokemons(){
 
     let url=`${this.urlPokemon}/pokemon`;
@@ -42,6 +37,7 @@ export class PokemonService {
 
   }
 
+  // FUNCION Q PERMITE OBTENER MAS POKEMONES EN LA SIGUIENTE PAGINA
   obtenerMadpokemons(url){
     return this.http.get(url)
       .map(res => {
@@ -50,7 +46,8 @@ export class PokemonService {
 
   }
 
-  obtenerarrayMostrar(currentPokemons,currentNationalPokemons){
+  // FUNCION QUE PERMITE COMPARAR ENTRE EL ARRAY POKEMONNATIONAL Y LOS POKEMONES CON EL FIN DE OBTENER SOLO LOS NATIONAL Y SUS CARACTERISTICAS
+  obtenerarrayMostrar(currentPokemons, currentNationalPokemons){
     let globalScope=this;
     let promise= new Promise(function (resolve, reject) {
 
@@ -72,5 +69,19 @@ export class PokemonService {
     });
 
     return promise;
+  }
+
+  // DEVOLVEMOS UN SOLO POKEMON SEGUN EL IDX
+  getPoke( idx: string ){
+    return this.pokemonMostrar[idx];
+  }
+
+  // OBTENEMOS LA SPECIE DEL POKEMON
+  species( url ){
+   return this.http.get(url)
+      .map(res =>
+      {
+        return res.json();
+      });
   }
 }

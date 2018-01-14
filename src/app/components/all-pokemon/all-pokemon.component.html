@@ -1,17 +1,26 @@
+<!--LOADING-->
+<div *ngIf="loadingPr" class="loadingPr">
+  <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+  <span class="sr-only">Loading...</span>
+</div>
+
+
+<!--CARD-->
 <div class="card-columns">
-<div class="card" style="width: 18rem;" *ngFor="let p of poemonMostrar">
+<div class="card" style="width: 18rem;" *ngFor="let p of poemonMostrar let i =index">
   <img class="card-img-top" [src]="p.sprites.front_default" alt="Card image cap">
   <div class="card-body">
     <h5 class="card-title">{{p.name}}</h5>
     <button
-            type="button" class="btn btn-outline-primary btn-block">
+            type="button" (click)="verPokemon(i)" class="btn btn-outline-primary btn-block">
       Ver más...
     </button>
   </div>
 </div>
 </div>
 
+<!--VER MAS-->
 <button
-  type="button" (click)="obtenermaspokemnon()" class="btn btn-outline-primary btn-block">
+  type="button" *ngIf="poemonMostrar.length>0 && !loadingPr" (click)="obtenermaspokemnon()" class="btn btn-outline-primary btn-block">
   Cargar Más pokemons
 </button>
